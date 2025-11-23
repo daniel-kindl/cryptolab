@@ -17,11 +17,27 @@ interface PageHeaderProps {
   description: string;
   icon?: ReactNode;
   color?: string;
+  lab?: 'encoding' | 'hashing' | 'encryption' | 'pitfalls';
   compact?: boolean;
 }
 
-export function PageHeader({ title, description, icon, color = 'blue', compact = false }: PageHeaderProps) {
+export function PageHeader({ title, description, icon, color = 'blue', lab, compact = false }: PageHeaderProps) {
   const theme = useMantineTheme();
+  
+  let background = `linear-gradient(135deg, ${theme.colors[color][9]} 0%, ${theme.colors[color][6]} 100%)`;
+  
+  if (lab && theme.other.labColors[lab]) {
+    const { from, to } = theme.other.labColors[lab];
+    // Resolve theme colors if they are strings like 'brand.5'
+    const getThemeColor = (c: string) => {
+      const [palette, shade] = c.split('.');
+      if (palette && shade && theme.colors[palette]) {
+        return theme.colors[palette][parseInt(shade)];
+      }
+      return c;
+    };
+    background = `linear-gradient(135deg, ${getThemeColor(from)} 0%, ${getThemeColor(to)} 100%)`;
+  }
 
   return (
     <Container size='lg' mb={compact ? '1rem' : '3rem'}>
@@ -32,7 +48,7 @@ export function PageHeader({ title, description, icon, color = 'blue', compact =
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         style={{
-          background: `linear-gradient(135deg, ${theme.colors[color][9]} 0%, ${theme.colors[color][6]} 100%)`,
+          background,
           color: 'white',
           borderRadius: theme.radius.lg,
           boxShadow: theme.shadows.md,
