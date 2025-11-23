@@ -7,18 +7,18 @@ interface DetailedNoteProps {
   title?: string;
 }
 
-export function DetailedNote({ children, title = "Educator Note" }: DetailedNoteProps) {
+export function DetailedNote({ children, title = 'Educator Note' }: DetailedNoteProps) {
   return (
-    <Alert 
-      icon={<IconSchool size={16} />} 
-      title={title} 
-      color="violet" 
-      variant="light" 
-      mt="md" 
-      mb="md"
+    <Alert
+      icon={<IconSchool size={16} />}
+      title={title}
+      color='violet'
+      variant='light'
+      mt='md'
+      mb='md'
       styles={{
         title: { fontSize: '0.9rem' },
-        message: { fontSize: '0.9rem' }
+        message: { fontSize: '0.9rem' },
       }}
     >
       {children}

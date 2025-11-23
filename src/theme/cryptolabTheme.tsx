@@ -1,96 +1,97 @@
 import { createTheme, MantineColorsTuple, rem, MantineTheme } from '@mantine/core';
 
 const brand: MantineColorsTuple = [
-  "#f4f0ff",
-  "#e3d9ff",
-  "#c4b2ff",
-  "#a689ff",
-  "#8a62ff",
-  "#7a3eff",   // main shade
-  "#692fe0",
-  "#5826ba",
-  "#462093",
-  "#301663"
+  '#f4f0ff',
+  '#e3d9ff',
+  '#c4b2ff',
+  '#a689ff',
+  '#8a62ff',
+  '#7a3eff', // main shade
+  '#692fe0',
+  '#5826ba',
+  '#462093',
+  '#301663',
 ];
 
 const accentBlue: MantineColorsTuple = [
-  "#e9f3ff",
-  "#d2e4ff",
-  "#a8c7ff",
-  "#7aa9ff",
-  "#528eff",
-  "#3b7bff",   // main
-  "#3267dc",
-  "#2955b6",
-  "#214290",
-  "#172e63"
+  '#e9f3ff',
+  '#d2e4ff',
+  '#a8c7ff',
+  '#7aa9ff',
+  '#528eff',
+  '#3b7bff', // main
+  '#3267dc',
+  '#2955b6',
+  '#214290',
+  '#172e63',
 ];
 
 const success: MantineColorsTuple = [
-  "#e6f9ef",
-  "#c6f0db",
-  "#93e1bc",
-  "#5fd29b",
-  "#34c57f",
-  "#1bbd70",   // main
-  "#139c5b",
-  "#0f7b47",
-  "#0a5833",
-  "#063520"
+  '#e6f9ef',
+  '#c6f0db',
+  '#93e1bc',
+  '#5fd29b',
+  '#34c57f',
+  '#1bbd70', // main
+  '#139c5b',
+  '#0f7b47',
+  '#0a5833',
+  '#063520',
 ];
 
 const warning: MantineColorsTuple = [
-  "#fff7e6",
-  "#ffe9c2",
-  "#ffd18a",
-  "#ffb955",
-  "#ffa12b",
-  "#ff910f",   // main
-  "#e47a00",
-  "#ba6200",
-  "#8f4800",
-  "#5f3000"
+  '#fff7e6',
+  '#ffe9c2',
+  '#ffd18a',
+  '#ffb955',
+  '#ffa12b',
+  '#ff910f', // main
+  '#e47a00',
+  '#ba6200',
+  '#8f4800',
+  '#5f3000',
 ];
 
 const danger: MantineColorsTuple = [
-  "#ffe8ea",
-  "#ffcbd0",
-  "#ff99a3",
-  "#ff6a77",
-  "#ff4354",
-  "#ff293f",   // main
-  "#e01a35",
-  "#b51329",
-  "#8b0c1e",
-  "#5b0713"
+  '#ffe8ea',
+  '#ffcbd0',
+  '#ff99a3',
+  '#ff6a77',
+  '#ff4354',
+  '#ff293f', // main
+  '#e01a35',
+  '#b51329',
+  '#8b0c1e',
+  '#5b0713',
 ];
 
 const info: MantineColorsTuple = [
-  "#e6f5ff",
-  "#c9e6ff",
-  "#96ceff",
-  "#63b5ff",
-  "#3a9fff",
-  "#208fff",   // main
-  "#1876da",
-  "#135db3",
-  "#0d4588",
-  "#072a57"
+  '#e6f5ff',
+  '#c9e6ff',
+  '#96ceff',
+  '#63b5ff',
+  '#3a9fff',
+  '#208fff', // main
+  '#1876da',
+  '#135db3',
+  '#0d4588',
+  '#072a57',
 ];
 
 const surface: MantineColorsTuple = [
-  "#f7f7fa",
-  "#ececf2",
-  "#dedee7",
-  "#cdccdc",
-  "#bcbad0",
-  "#aaa8c3",
-  "#9894b4",
-  "#7f7b9b",
-  "#676383",
-  "#474360"
+  '#f7f7fa',
+  '#ececf2',
+  '#dedee7',
+  '#cdccdc',
+  '#bcbad0',
+  '#aaa8c3',
+  '#9894b4',
+  '#7f7b9b',
+  '#676383',
+  '#474360',
 ];
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const cryptolabTheme = createTheme({
   colors: {
     brand,
@@ -103,7 +104,7 @@ export const cryptolabTheme = createTheme({
   },
   primaryColor: 'brand',
   primaryShade: { light: 5, dark: 5 },
-  
+
   other: {
     brandGradient: { from: 'brand.5', to: 'accentBlue.5', deg: 135 },
     pageBgDark: '#111827',
@@ -118,9 +119,11 @@ export const cryptolabTheme = createTheme({
     },
   },
 
-  fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-  fontFamilyMonospace: "JetBrains Mono, 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  
+  fontFamily:
+    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  fontFamilyMonospace:
+    "JetBrains Mono, 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+
   fontSizes: {
     xs: rem(12),
     sm: rem(14),
@@ -130,7 +133,8 @@ export const cryptolabTheme = createTheme({
   },
 
   headings: {
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+    fontFamily:
+      "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
     fontWeight: '700',
     sizes: {
       h1: { fontSize: rem(36), lineHeight: '1.2' },
@@ -161,9 +165,9 @@ export const cryptolabTheme = createTheme({
   },
 
   shadows: {
-    sm: "0 4px 8px rgba(15, 23, 42, 0.25)",
-    md: "0 10px 30px rgba(15, 23, 42, 0.35)",
-    xs: "0 1px 3px rgba(15, 23, 42, 0.2)",
+    sm: '0 4px 8px rgba(15, 23, 42, 0.25)',
+    md: '0 10px 30px rgba(15, 23, 42, 0.35)',
+    xs: '0 1px 3px rgba(15, 23, 42, 0.2)',
   },
 
   components: {

@@ -44,6 +44,7 @@ export function EncodingLab() {
     const scenario = params.get('scenario') || hash;
 
     if (scenario === 'emoji') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInput('👋 Hello 🌍');
     } else if (scenario === 'json') {
       setInput('{"id": 1, "name": "Alice"}');
@@ -74,7 +75,7 @@ export function EncodingLab() {
       />
 
       <Container size='lg'>
-        <Group justify="flex-end" mb="md">
+        <Group justify='flex-end' mb='md'>
           <EducatorToggle value={showDetailed} onChange={setShowDetailed} />
         </Group>
 
@@ -104,23 +105,38 @@ export function EncodingLab() {
                   </Text>
                 </Text>
               </Group>
-              
-              <Text size="sm" c="dimmed" mt="md" fs="italic">
-                Encoding is reversible and provides <Text span fw={700} c="red.5">no confidentiality</Text>. Anyone can decode it.
+
+              <Text size='sm' c='dimmed' mt='md' fs='italic'>
+                Encoding is reversible and provides{' '}
+                <Text span fw={700} c='red.5'>
+                  no confidentiality
+                </Text>
+                . Anyone can decode it.
               </Text>
 
               {showDetailed && (
-                <DetailedNote title="Byte Length vs Character Count">
-                  <Text size="sm">
-                    Notice how emojis take up more bytes than regular letters? That's because UTF-8 is a variable-width encoding. 
-                    Standard ASCII characters use 1 byte, while emojis can use up to 4 bytes.
+                <DetailedNote title='Byte Length vs Character Count'>
+                  <Text size='sm'>
+                    Notice how emojis take up more bytes than regular letters? That's because UTF-8
+                    is a variable-width encoding. Standard ASCII characters use 1 byte, while emojis
+                    can use up to 4 bytes.
                   </Text>
                 </DetailedNote>
               )}
             </PageSection>
 
-            <PageSection title='Raw Bytes (UTF-8)' delay={0.2} action={<CopyButton value={Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join(' ')} />}>
-              <Group justify="space-between" mb="sm">
+            <PageSection
+              title='Raw Bytes (UTF-8)'
+              delay={0.2}
+              action={
+                <CopyButton
+                  value={Array.from(bytes)
+                    .map((b) => b.toString(16).padStart(2, '0'))
+                    .join(' ')}
+                />
+              }
+            >
+              <Group justify='space-between' mb='sm'>
                 <Tabs defaultValue='hex' variant='pills' radius='xl'>
                   <Tabs.List>
                     <Tabs.Tab value='hex' fz='xs' fw={600}>
@@ -133,7 +149,7 @@ export function EncodingLab() {
                 </Tabs>
               </Group>
 
-              <Tabs defaultValue="hex">
+              <Tabs defaultValue='hex'>
                 <Tabs.Panel value='hex' pt='xs'>
                   <HexView bytes={bytes} />
                 </Tabs.Panel>
@@ -185,10 +201,11 @@ export function EncodingLab() {
                         </Text>
                       )}
                       {showDetailed && (
-                        <DetailedNote title="Why 33% Overhead?">
-                          <Text size="sm">
-                            Base64 takes 3 bytes of input (24 bits) and splits them into 4 groups of 6 bits. 
-                            Each 6-bit group maps to one character. So, 3 bytes become 4 characters. 4/3 = 1.33...
+                        <DetailedNote title='Why 33% Overhead?'>
+                          <Text size='sm'>
+                            Base64 takes 3 bytes of input (24 bits) and splits them into 4 groups of
+                            6 bits. Each 6-bit group maps to one character. So, 3 bytes become 4
+                            characters. 4/3 = 1.33...
                           </Text>
                         </DetailedNote>
                       )}
@@ -218,10 +235,10 @@ export function EncodingLab() {
                       followed by two hexadecimal digits. Essential for passing data in URLs.
                     </Text>
                     {showDetailed && (
-                      <DetailedNote title="When to use?">
-                        <Text size="sm">
-                          Use this when putting data into a URL query parameter. For example, if you put a space in a URL, it breaks. 
-                          URL encoding turns space into %20.
+                      <DetailedNote title='When to use?'>
+                        <Text size='sm'>
+                          Use this when putting data into a URL query parameter. For example, if you
+                          put a space in a URL, it breaks. URL encoding turns space into %20.
                         </Text>
                       </DetailedNote>
                     )}

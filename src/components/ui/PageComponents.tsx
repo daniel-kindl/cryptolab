@@ -21,11 +21,18 @@ interface PageHeaderProps {
   compact?: boolean;
 }
 
-export function PageHeader({ title, description, icon, color = 'blue', lab, compact = false }: PageHeaderProps) {
+export function PageHeader({
+  title,
+  description,
+  icon,
+  color = 'blue',
+  lab,
+  compact = false,
+}: PageHeaderProps) {
   const theme = useMantineTheme();
-  
+
   let background = `linear-gradient(135deg, ${theme.colors[color][9]} 0%, ${theme.colors[color][6]} 100%)`;
-  
+
   if (lab && theme.other.labColors[lab]) {
     const { from, to } = theme.other.labColors[lab];
     // Resolve theme colors if they are strings like 'brand.5'
@@ -119,9 +126,9 @@ export function PageSection({ title, description, icon, children, delay = 0 }: P
       mb='xl'
     >
       {(title || description || icon) && (
-        <Group mb='md' align="flex-start">
+        <Group mb='md' align='flex-start'>
           {icon && (
-            <ThemeIcon variant="light" size="lg" radius="md">
+            <ThemeIcon variant='light' size='lg' radius='md'>
               {icon}
             </ThemeIcon>
           )}
@@ -132,7 +139,7 @@ export function PageSection({ title, description, icon, children, delay = 0 }: P
               </Title>
             )}
             {description && (
-              <Text c="dimmed" size="sm">
+              <Text c='dimmed' size='sm'>
                 {description}
               </Text>
             )}

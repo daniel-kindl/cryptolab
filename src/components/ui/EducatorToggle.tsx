@@ -8,10 +8,12 @@ interface EducatorToggleProps {
 
 export function EducatorToggle({ value, onChange }: EducatorToggleProps) {
   return (
-    <Group gap="xs">
-      <Text size="xs" fw={500} c="dimmed">Explanation Density:</Text>
+    <Group gap='xs'>
+      <Text size='xs' fw={500} c='dimmed'>
+        Explanation Density:
+      </Text>
       <SegmentedControl
-        size="xs"
+        size='xs'
         value={value ? 'detailed' : 'concise'}
         onChange={(val) => onChange(val === 'detailed')}
         data={[
@@ -20,7 +22,7 @@ export function EducatorToggle({ value, onChange }: EducatorToggleProps) {
             label: (
               <Group gap={4}>
                 <IconBook size={12} />
-                <Text size="xs">Concise</Text>
+                <Text size='xs'>Concise</Text>
               </Group>
             ),
           },
@@ -29,7 +31,7 @@ export function EducatorToggle({ value, onChange }: EducatorToggleProps) {
             label: (
               <Group gap={4}>
                 <IconSchool size={12} />
-                <Text size="xs">Educator</Text>
+                <Text size='xs'>Educator</Text>
               </Group>
             ),
           },

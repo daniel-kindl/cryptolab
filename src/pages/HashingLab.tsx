@@ -38,7 +38,9 @@ import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
-const BitGrid = lazy(() => import('../components/viz/BitGrid').then(module => ({ default: module.BitGrid })));
+const BitGrid = lazy(() =>
+  import('../components/viz/BitGrid').then((module) => ({ default: module.BitGrid })),
+);
 
 export function HashingLab() {
   useDocumentTitle('Hashing & Avalanche Effect — Cryptolab');
@@ -57,19 +59,6 @@ export function HashingLab() {
   const [fileHash, setFileHash] = useState('');
   const [isHashingFile, setIsHashingFile] = useState(false);
 
-  // Smart Presets
-  useEffect(() => {
-    const hash = location.hash.replace('#', '');
-    const params = new URLSearchParams(location.search);
-    const sc = params.get('scenario') || hash;
-
-    if (sc === 'avalanche' || sc === 'avalanche-demo') {
-      handleExampleSelect('Avalanche');
-    } else if (sc === 'password') {
-      handleExampleSelect('Password');
-    }
-  }, [location]);
-
   useEffect(() => {
     computeHash(input1, algo).then(setHash1);
   }, [input1, algo]);
@@ -80,9 +69,10 @@ export function HashingLab() {
 
   useEffect(() => {
     if (file) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsHashingFile(true);
       setFileHash('');
-      
+
       // Off-main-thread simulation using setTimeout to unblock UI
       setTimeout(() => {
         const reader = new FileReader();
@@ -122,6 +112,20 @@ export function HashingLab() {
     }
   };
 
+  // Smart Presets
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    const params = new URLSearchParams(location.search);
+    const sc = params.get('scenario') || hash;
+
+    if (sc === 'avalanche' || sc === 'avalanche-demo') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      handleExampleSelect('Avalanche');
+    } else if (sc === 'password') {
+      handleExampleSelect('Password');
+    }
+  }, [location]);
+
   return (
     <>
       <PageHeader
@@ -133,7 +137,7 @@ export function HashingLab() {
       />
 
       <Container size='lg'>
-        <Group justify="flex-end" mb="md">
+        <Group justify='flex-end' mb='md'>
           <EducatorToggle value={showDetailed} onChange={setShowDetailed} />
         </Group>
 
@@ -158,7 +162,7 @@ export function HashingLab() {
           </Stack>
         </PageSection>
 
-        <Box mb="xl">
+        <Box mb='xl'>
           <ExamplePicker
             examples={examples}
             onSelect={handleExampleSelect}
@@ -176,16 +180,13 @@ export function HashingLab() {
                   value={input1}
                   onChange={(e) => setInput1(e.currentTarget.value)}
                 />
-                <Group justify="space-between" mt="sm">
+                <Group justify='space-between' mt='sm'>
                   <Text size='sm' fw={500}>
                     Hash Output
                   </Text>
                   <CopyButton value={hash1} />
                 </Group>
-                <Code
-                  block
-                  style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}
-                >
+                <Code block style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}>
                   {hash1 || 'Computing...'}
                 </Code>
               </Stack>
@@ -200,16 +201,13 @@ export function HashingLab() {
                   value={input2}
                   onChange={(e) => setInput2(e.currentTarget.value)}
                 />
-                <Group justify="space-between" mt="sm">
+                <Group justify='space-between' mt='sm'>
                   <Text size='sm' fw={500}>
                     Hash Output
                   </Text>
                   <CopyButton value={hash2} />
                 </Group>
-                <Code
-                  block
-                  style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}
-                >
+                <Code block style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}>
                   {hash2 || 'Computing...'}
                 </Code>
               </Stack>
@@ -219,10 +217,11 @@ export function HashingLab() {
 
         <PageSection title='Avalanche Effect Visualization' delay={0.4}>
           {showDetailed && (
-            <DetailedNote title="The Avalanche Effect">
-              <Text size="sm">
-                In a good hash function, flipping a single bit in the input should flip approximately 50% of the bits in the output. 
-                This makes it impossible to predict the input from the output.
+            <DetailedNote title='The Avalanche Effect'>
+              <Text size='sm'>
+                In a good hash function, flipping a single bit in the input should flip
+                approximately 50% of the bits in the output. This makes it impossible to predict the
+                input from the output.
               </Text>
             </DetailedNote>
           )}
@@ -280,7 +279,13 @@ export function HashingLab() {
                   First 256 Bits Visualization
                 </Text>
                 <Box mx='auto' style={{ maxWidth: 500 }}>
-                  <Suspense fallback={<Center p="xl"><Loader /></Center>}>
+                  <Suspense
+                    fallback={
+                      <Center p='xl'>
+                        <Loader />
+                      </Center>
+                    }
+                  >
                     <BitGrid bits={diffBits} />
                   </Suspense>
                 </Box>
@@ -291,10 +296,11 @@ export function HashingLab() {
 
         <PageSection title='File Integrity Check' delay={0.5}>
           {showDetailed && (
-            <DetailedNote title="Client-Side Hashing">
-              <Text size="sm">
-                We are hashing this file right here in your browser. It is never uploaded to a server. 
-                This is useful for verifying that a downloaded file hasn't been tampered with.
+            <DetailedNote title='Client-Side Hashing'>
+              <Text size='sm'>
+                We are hashing this file right here in your browser. It is never uploaded to a
+                server. This is useful for verifying that a downloaded file hasn't been tampered
+                with.
               </Text>
             </DetailedNote>
           )}
@@ -308,14 +314,16 @@ export function HashingLab() {
               maw={300}
             />
             <Stack gap={0} style={{ flex: 1 }}>
-              <Group justify="space-between" mb={4}>
+              <Group justify='space-between' mb={4}>
                 <Text size='sm' fw={500}>
                   SHA-256 Digest
                 </Text>
                 {fileHash && <CopyButton value={fileHash} />}
               </Group>
               <Code block style={{ wordBreak: 'break-all' }}>
-                {isHashingFile ? 'Computing hash...' : (fileHash || 'Select a file to see its hash...')}
+                {isHashingFile
+                  ? 'Computing hash...'
+                  : fileHash || 'Select a file to see its hash...'}
               </Code>
             </Stack>
           </Group>

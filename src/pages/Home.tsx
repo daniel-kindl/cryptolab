@@ -234,7 +234,6 @@ export function Home() {
         </SimpleGrid>
       </Stack>
 
-
       {/* Quick Glossary */}
       <Stack mt={100} mb={50} gap='xl'>
         <Group justify='center'>

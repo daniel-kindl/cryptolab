@@ -37,7 +37,9 @@ import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
-const BlockDiagram = lazy(() => import('../components/viz/BlockDiagram').then(module => ({ default: module.BlockDiagram })));
+const BlockDiagram = lazy(() =>
+  import('../components/viz/BlockDiagram').then((module) => ({ default: module.BlockDiagram })),
+);
 
 export function EncryptionLab() {
   useDocumentTitle('Encryption & Block Modes — Cryptolab');
@@ -46,18 +48,6 @@ export function EncryptionLab() {
   const isDark = colorScheme === 'dark';
   const [activeTab, setActiveTab] = useState<string | null>('caesar');
   const [showDetailed, setShowDetailed] = useState(false);
-
-  // Smart Presets
-  useEffect(() => {
-    const hash = location.hash.replace('#', '');
-    const params = new URLSearchParams(location.search);
-    const sc = params.get('scenario') || hash;
-
-    if (sc === 'ecb-pattern') {
-      setActiveTab('aes');
-      setBlockInput('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    }
-  }, [location]);
 
   // Caesar State
   const [caesarInput, setCaesarInput] = useState('HELLO CAESAR');
@@ -73,6 +63,19 @@ export function EncryptionLab() {
   // AES/Block State (Conceptual)
   const [blockInput, setBlockInput] = useState('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'); // 32 chars = 2 blocks
   const blocks = splitIntoBlocks(blockInput);
+
+  // Smart Presets
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    const params = new URLSearchParams(location.search);
+    const sc = params.get('scenario') || hash;
+
+    if (sc === 'ecb-pattern') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveTab('aes');
+      setBlockInput('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    }
+  }, [location]);
 
   const ecbBlocks = blocks.map((b) => {
     const encHex = xorEncrypt(String.fromCharCode(...b.bytes), 'SECRET_KEY_12345');
@@ -111,7 +114,7 @@ export function EncryptionLab() {
       />
 
       <Container size='lg'>
-        <Group justify="flex-end" mb="md">
+        <Group justify='flex-end' mb='md'>
           <EducatorToggle value={showDetailed} onChange={setShowDetailed} />
         </Group>
 
@@ -161,8 +164,10 @@ export function EncryptionLab() {
                   />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 6 }}>
-                  <Group justify="space-between" mb={4}>
-                    <Text size="sm" fw={500}>Ciphertext Output</Text>
+                  <Group justify='space-between' mb={4}>
+                    <Text size='sm' fw={500}>
+                      Ciphertext Output
+                    </Text>
                     <CopyButton value={caesarOutput} />
                   </Group>
                   <TextInput
@@ -212,9 +217,10 @@ export function EncryptionLab() {
               </Text>
 
               {showDetailed && (
-                <DetailedNote title="Why XOR?">
-                  <Text size="sm">
-                    XOR is the perfect cryptographic operator because it is reversible (A XOR B XOR B = A) and, if the key is random, the output is random.
+                <DetailedNote title='Why XOR?'>
+                  <Text size='sm'>
+                    XOR is the perfect cryptographic operator because it is reversible (A XOR B XOR
+                    B = A) and, if the key is random, the output is random.
                   </Text>
                 </DetailedNote>
               )}
@@ -236,7 +242,7 @@ export function EncryptionLab() {
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <Stack>
-                    <Group justify="space-between" mb={-8}>
+                    <Group justify='space-between' mb={-8}>
                       <Text size='sm' fw={500}>
                         Ciphertext (Hex)
                       </Text>
@@ -271,10 +277,11 @@ export function EncryptionLab() {
               </Alert>
 
               {showDetailed && (
-                <DetailedNote title="ECB vs CBC">
-                  <Text size="sm">
-                    ECB (Electronic Codebook) encrypts each block independently. This is bad because patterns in the plaintext show up in the ciphertext.
-                    CBC (Cipher Block Chaining) mixes the previous block into the current one, hiding patterns.
+                <DetailedNote title='ECB vs CBC'>
+                  <Text size='sm'>
+                    ECB (Electronic Codebook) encrypts each block independently. This is bad because
+                    patterns in the plaintext show up in the ciphertext. CBC (Cipher Block Chaining)
+                    mixes the previous block into the current one, hiding patterns.
                   </Text>
                 </DetailedNote>
               )}
@@ -313,7 +320,13 @@ export function EncryptionLab() {
                       blocks.
                       <b>Pattern is preserved.</b>
                     </Text>
-                    <Suspense fallback={<Center p="xl"><Loader /></Center>}>
+                    <Suspense
+                      fallback={
+                        <Center p='xl'>
+                          <Loader />
+                        </Center>
+                      }
+                    >
                       <BlockDiagram blocks={ecbBlocks} label='Ciphertext Blocks' />
                     </Suspense>
                   </Card>
@@ -337,7 +350,13 @@ export function EncryptionLab() {
                       Cipher Block Chaining. Previous block is mixed into current block.
                       <b>Pattern is hidden.</b>
                     </Text>
-                    <Suspense fallback={<Center p="xl"><Loader /></Center>}>
+                    <Suspense
+                      fallback={
+                        <Center p='xl'>
+                          <Loader />
+                        </Center>
+                      }
+                    >
                       <BlockDiagram blocks={cbcBlocks} label='Ciphertext Blocks' />
                     </Suspense>
                   </Card>

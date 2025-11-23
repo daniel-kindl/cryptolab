@@ -1,0 +1,22 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{ts,tsx,js,jsx}]
+# Naming conventions and guidelines (enforced via code review/linting, documented here)
+# - PascalCase for React components and types
+# - camelCase for variables and functions
+# - UPPER_SNAKE_CASE for constants
+# - Meaningful names (no tmp, foo)
+# - SOLID principles: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+# - DRY: Don't Repeat Yourself
+# - KISS: Keep It Simple, Stupid
+
+[*.md]
+trim_trailing_whitespace = false

@@ -9,7 +9,7 @@ import { cryptolabTheme } from '../../src/theme/cryptolabTheme';
 // Mock matchMedia for Mantine
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -33,7 +33,7 @@ describe('EducatorToggle', () => {
     render(
       <MantineProvider theme={cryptolabTheme}>
         <EducatorToggle value={false} onChange={() => {}} />
-      </MantineProvider>
+      </MantineProvider>,
     );
     expect(screen.getByText('Explanation Density:')).toBeInTheDocument();
   });
@@ -43,13 +43,13 @@ describe('EducatorToggle', () => {
     render(
       <MantineProvider theme={cryptolabTheme}>
         <EducatorToggle value={false} onChange={handleChange} />
-      </MantineProvider>
+      </MantineProvider>,
     );
-    
+
     // Find the "Educator" segment
     const educatorOption = screen.getByText('Educator');
     fireEvent.click(educatorOption);
-    
+
     expect(handleChange).toHaveBeenCalledWith(true);
   });
 });
@@ -60,10 +60,10 @@ describe('Smart Presets', () => {
       <MantineProvider theme={cryptolabTheme}>
         <MemoryRouter initialEntries={['/encoding?scenario=emoji']}>
           <Routes>
-            <Route path="/encoding" element={<EncodingLab />} />
+            <Route path='/encoding' element={<EncodingLab />} />
           </Routes>
         </MemoryRouter>
-      </MantineProvider>
+      </MantineProvider>,
     );
 
     // Check if input is set to emoji

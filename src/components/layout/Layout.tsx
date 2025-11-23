@@ -62,9 +62,10 @@ export function Layout() {
         borderRadius: 'var(--mantine-radius-md)',
         marginBottom: 8,
         fontWeight: 500,
-        borderLeft: location.pathname === link.to 
-          ? `4px solid ${theme.colors[link.color][6]}` 
-          : '4px solid transparent',
+        borderLeft:
+          location.pathname === link.to
+            ? `4px solid ${theme.colors[link.color][6]}`
+            : '4px solid transparent',
       }}
     />
   ));
@@ -140,7 +141,14 @@ export function Layout() {
       </AppShell.Header>
 
       <AppShell.Navbar p='md'>
-        <Text size='xs' fw={700} c='dimmed' mb='md' tt='uppercase' style={{ letterSpacing: 1, opacity: 0.5 }}>
+        <Text
+          size='xs'
+          fw={700}
+          c='dimmed'
+          mb='md'
+          tt='uppercase'
+          style={{ letterSpacing: 1, opacity: 0.5 }}
+        >
           Menu
         </Text>
         {items}

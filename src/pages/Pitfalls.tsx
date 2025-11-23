@@ -47,6 +47,8 @@ export function Pitfalls() {
   const isDark = colorScheme === 'dark';
   const [showDetailed, setShowDetailed] = useState(false);
 
+  const [accordionValue, setAccordionValue] = useState<string | null>('base64');
+
   // Smart Presets
   useEffect(() => {
     const hash = location.hash.replace('#', '');
@@ -59,11 +61,10 @@ export function Pitfalls() {
       // The default is 'base64', so it works.
     } else if (sc === 'unsalted-hash') {
       // We need to control the accordion to switch to hashing
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAccordionValue('hashing');
     }
   }, [location]);
-
-  const [accordionValue, setAccordionValue] = useState<string | null>('base64');
 
   // Base64 Demo
   const [secret, setSecret] = useState('MyPassword123');
@@ -112,15 +113,27 @@ export function Pitfalls() {
       />
 
       <Container size='lg'>
-        <Group justify="space-between" mb="md" align="flex-start">
-          <Alert color="orange" variant="light" radius="md" py="xs" icon={<IconAlertTriangle size={16} />}>
+        <Group justify='space-between' mb='md' align='flex-start'>
+          <Alert
+            color='orange'
+            variant='light'
+            radius='md'
+            py='xs'
+            icon={<IconAlertTriangle size={16} />}
+          >
             These demos are simplified; real-world attacks are more complex.
           </Alert>
           <EducatorToggle value={showDetailed} onChange={setShowDetailed} />
         </Group>
 
         <PageSection title='Interactive Scenarios' delay={0.1}>
-          <Accordion variant='separated' radius='lg' chevronPosition='left' value={accordionValue} onChange={setAccordionValue}>
+          <Accordion
+            variant='separated'
+            radius='lg'
+            chevronPosition='left'
+            value={accordionValue}
+            onChange={setAccordionValue}
+          >
             {/* SCENARIO 1: BASE64 */}
             <Accordion.Item value='base64'>
               <Accordion.Control
@@ -139,10 +152,11 @@ export function Pitfalls() {
                 </Text>
 
                 {showDetailed && (
-                  <DetailedNote title="Security through Obscurity">
-                    <Text size="sm">
-                      Relying on the hope that attackers won't figure out your encoding scheme is called "Security through Obscurity". It never works. 
-                      Base64 strings are easily recognizable by their character set and padding ('=').
+                  <DetailedNote title='Security through Obscurity'>
+                    <Text size='sm'>
+                      Relying on the hope that attackers won't figure out your encoding scheme is
+                      called "Security through Obscurity". It never works. Base64 strings are easily
+                      recognizable by their character set and padding ('=').
                     </Text>
                   </DetailedNote>
                 )}
@@ -168,7 +182,7 @@ export function Pitfalls() {
                       mb='sm'
                     />
 
-                    <Group justify="space-between" mb={-8}>
+                    <Group justify='space-between' mb={-8}>
                       <Text size='sm' fw={500}>
                         Stored Data (Base64):
                       </Text>
@@ -229,10 +243,11 @@ export function Pitfalls() {
                 </Text>
 
                 {showDetailed && (
-                  <DetailedNote title="Rainbow Tables">
-                    <Text size="sm">
-                      A Rainbow Table is a massive precomputed database of billions of passwords and their corresponding hashes. 
-                      If you use a fast hash without a unique "salt" for each user, an attacker can just look up the hash in the table.
+                  <DetailedNote title='Rainbow Tables'>
+                    <Text size='sm'>
+                      A Rainbow Table is a massive precomputed database of billions of passwords and
+                      their corresponding hashes. If you use a fast hash without a unique "salt" for
+                      each user, an attacker can just look up the hash in the table.
                     </Text>
                   </DetailedNote>
                 )}
@@ -269,7 +284,7 @@ export function Pitfalls() {
 
                     {hash && (
                       <>
-                        <Group justify="space-between" mb={-8}>
+                        <Group justify='space-between' mb={-8}>
                           <Text size='sm' fw={500}>
                             Database Entry (MD5):
                           </Text>
