@@ -4,6 +4,7 @@ import { EducatorToggle } from '../../src/components/ui/EducatorToggle';
 import { MantineProvider } from '@mantine/core';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { EncodingLab } from '../../src/pages/EncodingLab';
+import { cryptolabTheme } from '../../src/theme/cryptolabTheme';
 
 // Mock matchMedia for Mantine
 Object.defineProperty(window, 'matchMedia', {
@@ -30,7 +31,7 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
 describe('EducatorToggle', () => {
   it('renders correctly', () => {
     render(
-      <MantineProvider>
+      <MantineProvider theme={cryptolabTheme}>
         <EducatorToggle value={false} onChange={() => {}} />
       </MantineProvider>
     );
@@ -40,7 +41,7 @@ describe('EducatorToggle', () => {
   it('calls onChange when clicked', () => {
     const handleChange = vi.fn();
     render(
-      <MantineProvider>
+      <MantineProvider theme={cryptolabTheme}>
         <EducatorToggle value={false} onChange={handleChange} />
       </MantineProvider>
     );
@@ -56,7 +57,7 @@ describe('EducatorToggle', () => {
 describe('Smart Presets', () => {
   it('EncodingLab loads emoji scenario from query param', async () => {
     render(
-      <MantineProvider>
+      <MantineProvider theme={cryptolabTheme}>
         <MemoryRouter initialEntries={['/encoding?scenario=emoji']}>
           <Routes>
             <Route path="/encoding" element={<EncodingLab />} />
