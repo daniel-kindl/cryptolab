@@ -140,7 +140,7 @@ export function Layout() {
       </AppShell.Header>
 
       <AppShell.Navbar p='md'>
-        <Text size='xs' fw={700} c='dimmed' mb='md' tt='uppercase' style={{ letterSpacing: 1, opacity: 0.7 }}>
+        <Text size='xs' fw={700} c='dimmed' mb='md' tt='uppercase' style={{ letterSpacing: 1, opacity: 0.5 }}>
           Menu
         </Text>
         {items}
