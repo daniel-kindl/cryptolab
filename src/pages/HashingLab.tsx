@@ -23,6 +23,7 @@ import {
   Loader,
   Center,
 } from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 import { IconHash, IconFile } from '@tabler/icons-react';
 import {
   computeHash,
@@ -48,6 +49,8 @@ export function HashingLab() {
   const [algo, setAlgo] = useState<HashAlgorithm>('SHA-256');
   const [input1, setInput1] = useState('Hello World');
   const [input2, setInput2] = useState('hello world'); // Small difference
+  const [debouncedInput1] = useDebouncedValue(input1, 300);
+  const [debouncedInput2] = useDebouncedValue(input2, 300);
   const [scenario, setScenario] = useState<string | null>(null);
   const [showDetailed, setShowDetailed] = useState(false);
 
@@ -60,12 +63,12 @@ export function HashingLab() {
   const [isHashingFile, setIsHashingFile] = useState(false);
 
   useEffect(() => {
-    computeHash(input1, algo).then(setHash1);
-  }, [input1, algo]);
+    computeHash(debouncedInput1, algo).then(setHash1);
+  }, [debouncedInput1, algo]);
 
   useEffect(() => {
-    computeHash(input2, algo).then(setHash2);
-  }, [input2, algo]);
+    computeHash(debouncedInput2, algo).then(setHash2);
+  }, [debouncedInput2, algo]);
 
   useEffect(() => {
     if (file) {

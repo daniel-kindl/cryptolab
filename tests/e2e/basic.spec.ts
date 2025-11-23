@@ -25,9 +25,10 @@ test('hashing lab computes hash', async ({ page }) => {
   await page.goto('/#/hashing');
   const input = page.getByLabel('Text Input', { exact: true });
   await input.fill('Test');
+  await expect(input).toHaveValue('Test');
 
   // Wait for hash to appear (SHA-256 of 'Test' starts with 532ea...)
   await expect(
     page.getByText('532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25'),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 10000 });
 });
