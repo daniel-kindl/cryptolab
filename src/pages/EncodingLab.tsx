@@ -21,7 +21,8 @@ import {
 import { IconCode } from '@tabler/icons-react';
 import { stringToBytes, stringToBase64, urlEncode } from '../crypto/encoding';
 import { HexView } from '../components/viz/HexView';
-import { PageHeader, PageSection } from '../components/ui/PageComponents';
+import { PageHeader } from '../components/ui/PageComponents';
+import { PageSection } from '../components/layout/PageSection';
 import { ExamplePicker } from '../components/ui/ExamplePicker';
 import { ByteVisualizer, ExplanationTooltip } from '../components/ui/ByteVisualizer';
 import { CopyButton } from '../components/ui/CopyButton';
@@ -68,7 +69,7 @@ export function EncodingLab() {
         title='Encoding Lab'
         description='Encoding transforms data into a new format using a publicly available scheme. It is NOT encryption because it requires no secret key and is easily reversible.'
         icon={<IconCode size={32} />}
-        color='blue'
+        lab='encoding'
         compact
       />
 
@@ -80,72 +81,66 @@ export function EncodingLab() {
         <Grid gutter='xl'>
           <Grid.Col span={{ base: 12, md: 5 }}>
             <PageSection title='Input' delay={0.1}>
-              <Card p='lg' radius='lg' withBorder>
-                <ExamplePicker examples={examples} onSelect={setInput} currentValue={input} />
-                <TextInput
-                  label='Text to Encode'
-                  placeholder='Type something...'
-                  value={input}
-                  onChange={(e) => setInput(e.currentTarget.value)}
-                  size='md'
-                  mb='md'
-                />
-                <Group justify='space-between'>
-                  <Text size='sm' c='dimmed'>
-                    Characters:{' '}
-                    <Text span fw={700} c='blue'>
-                      {input.length}
-                    </Text>
+              <ExamplePicker examples={examples} onSelect={setInput} currentValue={input} />
+              <TextInput
+                label='Text to Encode'
+                placeholder='Type something...'
+                value={input}
+                onChange={(e) => setInput(e.currentTarget.value)}
+                size='md'
+                mb='md'
+              />
+              <Group justify='space-between'>
+                <Text size='sm' c='dimmed'>
+                  Characters:{' '}
+                  <Text span fw={700} c='blue'>
+                    {input.length}
                   </Text>
-                  <Text size='sm' c='dimmed'>
-                    Bytes (UTF-8):{' '}
-                    <Text span fw={700} c='blue'>
-                      {bytes.length}
-                    </Text>
-                  </Text>
-                </Group>
-                
-                <Text size="sm" c="dimmed" mt="md" fs="italic">
-                  Encoding is reversible and provides <Text span fw={700} c="red.5">no confidentiality</Text>. Anyone can decode it.
                 </Text>
+                <Text size='sm' c='dimmed'>
+                  Bytes (UTF-8):{' '}
+                  <Text span fw={700} c='blue'>
+                    {bytes.length}
+                  </Text>
+                </Text>
+              </Group>
+              
+              <Text size="sm" c="dimmed" mt="md" fs="italic">
+                Encoding is reversible and provides <Text span fw={700} c="red.5">no confidentiality</Text>. Anyone can decode it.
+              </Text>
 
-                {showDetailed && (
-                  <DetailedNote title="Byte Length vs Character Count">
-                    <Text size="sm">
-                      Notice how emojis take up more bytes than regular letters? That's because UTF-8 is a variable-width encoding. 
-                      Standard ASCII characters use 1 byte, while emojis can use up to 4 bytes.
-                    </Text>
-                  </DetailedNote>
-                )}
-              </Card>
+              {showDetailed && (
+                <DetailedNote title="Byte Length vs Character Count">
+                  <Text size="sm">
+                    Notice how emojis take up more bytes than regular letters? That's because UTF-8 is a variable-width encoding. 
+                    Standard ASCII characters use 1 byte, while emojis can use up to 4 bytes.
+                  </Text>
+                </DetailedNote>
+              )}
             </PageSection>
 
-            <PageSection title='Raw Bytes (UTF-8)' delay={0.2}>
-              <Card p='lg' radius='lg' withBorder>
-                <Group justify="space-between" mb="sm">
-                  <Tabs defaultValue='hex' variant='pills' radius='xl'>
-                    <Tabs.List>
-                      <Tabs.Tab value='hex' fz='xs' fw={600}>
-                        Hex
-                      </Tabs.Tab>
-                      <Tabs.Tab value='binary' fz='xs' fw={600}>
-                        Binary
-                      </Tabs.Tab>
-                    </Tabs.List>
-                  </Tabs>
-                  <CopyButton value={Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join(' ')} />
-                </Group>
-
-                <Tabs value="hex"> {/* Controlled by inner tabs state, but simplified here for structure */}
-                  <Tabs.Panel value='hex' pt='xs'>
-                    <HexView bytes={bytes} />
-                  </Tabs.Panel>
-                  <Tabs.Panel value='binary' pt='xs'>
-                    <ByteVisualizer bytes={bytes} showBinary />
-                  </Tabs.Panel>
+            <PageSection title='Raw Bytes (UTF-8)' delay={0.2} action={<CopyButton value={Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join(' ')} />}>
+              <Group justify="space-between" mb="sm">
+                <Tabs defaultValue='hex' variant='pills' radius='xl'>
+                  <Tabs.List>
+                    <Tabs.Tab value='hex' fz='xs' fw={600}>
+                      Hex
+                    </Tabs.Tab>
+                    <Tabs.Tab value='binary' fz='xs' fw={600}>
+                      Binary
+                    </Tabs.Tab>
+                  </Tabs.List>
                 </Tabs>
-                {/* Re-implementing the tabs logic properly below since I messed up the structure above */}
-              </Card>
+              </Group>
+
+              <Tabs defaultValue="hex">
+                <Tabs.Panel value='hex' pt='xs'>
+                  <HexView bytes={bytes} />
+                </Tabs.Panel>
+                <Tabs.Panel value='binary' pt='xs'>
+                  <ByteVisualizer bytes={bytes} showBinary />
+                </Tabs.Panel>
+              </Tabs>
             </PageSection>
           </Grid.Col>
 

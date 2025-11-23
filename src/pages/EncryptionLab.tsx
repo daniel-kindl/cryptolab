@@ -29,7 +29,8 @@ import { IconLock, IconInfoCircle } from '@tabler/icons-react';
 import { caesarEncrypt } from '../crypto/caesar';
 import { xorEncrypt, xorDecrypt } from '../crypto/xor';
 import { splitIntoBlocks } from '../crypto/blocks';
-import { PageHeader, PageSection } from '../components/ui/PageComponents';
+import { PageHeader } from '../components/ui/PageComponents';
+import { PageSection } from '../components/layout/PageSection';
 import { ExamplePicker } from '../components/ui/ExamplePicker';
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
@@ -105,7 +106,7 @@ export function EncryptionLab() {
         title='Encryption Lab'
         description='Encryption uses a secret key to make data unreadable. Unlike encoding, it cannot be reversed without the key.'
         icon={<IconLock size={32} />}
-        color='violet'
+        lab='encryption'
         compact
       />
 
@@ -129,225 +130,219 @@ export function EncryptionLab() {
 
           <Tabs.Panel value='caesar' pt='xl'>
             <PageSection title='Caesar Cipher' delay={0.1}>
-              <Card p='xl' radius='lg' withBorder>
-                <Text mb='lg'>
-                  One of the simplest ciphers. It shifts every letter by a fixed number of positions
-                  in the alphabet.
-                </Text>
+              <Text mb='lg'>
+                One of the simplest ciphers. It shifts every letter by a fixed number of positions
+                in the alphabet.
+              </Text>
 
-                <Grid gutter='xl'>
-                  <Grid.Col span={{ base: 12, md: 6 }}>
-                    <TextInput
-                      label='Input (A-Z only)'
-                      value={caesarInput}
-                      onChange={(e) => setCaesarInput(e.currentTarget.value.toUpperCase())}
-                      mb='lg'
-                    />
+              <Grid gutter='xl'>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <TextInput
+                    label='Input (A-Z only)'
+                    value={caesarInput}
+                    onChange={(e) => setCaesarInput(e.currentTarget.value.toUpperCase())}
+                    mb='lg'
+                  />
 
-                    <Text size='sm' fw={500} mb='xs'>
-                      Shift Amount: {shift}
-                    </Text>
-                    <Slider
-                      value={shift}
-                      onChange={setShift}
-                      min={0}
-                      max={25}
-                      marks={[
-                        { value: 0, label: '0' },
-                        { value: 13, label: '13' },
-                        { value: 25, label: '25' },
-                      ]}
-                      mb='xl'
-                    />
-                  </Grid.Col>
-                  <Grid.Col span={{ base: 12, md: 6 }}>
-                    <Group justify="space-between" mb={4}>
-                      <Text size="sm" fw={500}>Ciphertext Output</Text>
-                      <CopyButton value={caesarOutput} />
-                    </Group>
-                    <TextInput
-                      value={caesarOutput}
-                      readOnly
-                      variant='filled'
-                      styles={{ input: { fontFamily: 'monospace', fontWeight: 'bold' } }}
-                    />
-                  </Grid.Col>
-                </Grid>
+                  <Text size='sm' fw={500} mb='xs'>
+                    Shift Amount: {shift}
+                  </Text>
+                  <Slider
+                    value={shift}
+                    onChange={setShift}
+                    min={0}
+                    max={25}
+                    marks={[
+                      { value: 0, label: '0' },
+                      { value: 13, label: '13' },
+                      { value: 25, label: '25' },
+                    ]}
+                    mb='xl'
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Group justify="space-between" mb={4}>
+                    <Text size="sm" fw={500}>Ciphertext Output</Text>
+                    <CopyButton value={caesarOutput} />
+                  </Group>
+                  <TextInput
+                    value={caesarOutput}
+                    readOnly
+                    variant='filled'
+                    styles={{ input: { fontFamily: 'monospace', fontWeight: 'bold' } }}
+                  />
+                </Grid.Col>
+              </Grid>
 
-                <Text size='sm' fw={700} mt='xl' mb='sm' c='dimmed' tt='uppercase'>
-                  Alphabet Mapping
-                </Text>
-                <ScrollArea>
-                  <Table withTableBorder withColumnBorders striped highlightOnHover>
-                    <Table.Thead>
-                      <Table.Tr>
-                        <Table.Th w={80}>Plain</Table.Th>
-                        {alphabet.map((c) => (
-                          <Table.Th key={c} ta='center' style={{ minWidth: 30 }}>
-                            {c}
-                          </Table.Th>
-                        ))}
-                      </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      <Table.Tr>
-                        <Table.Td fw={700}>Cipher</Table.Td>
-                        {shiftedAlphabet.map((c, i) => (
-                          <Table.Td key={i} ta='center' c='violet' fw={700}>
-                            {c}
-                          </Table.Td>
-                        ))}
-                      </Table.Tr>
-                    </Table.Tbody>
-                  </Table>
-                </ScrollArea>
-              </Card>
+              <Text size='sm' fw={700} mt='xl' mb='sm' c='dimmed' tt='uppercase'>
+                Alphabet Mapping
+              </Text>
+              <ScrollArea>
+                <Table withTableBorder withColumnBorders striped highlightOnHover>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th w={80}>Plain</Table.Th>
+                      {alphabet.map((c) => (
+                        <Table.Th key={c} ta='center' style={{ minWidth: 30 }}>
+                          {c}
+                        </Table.Th>
+                      ))}
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    <Table.Tr>
+                      <Table.Td fw={700}>Cipher</Table.Td>
+                      {shiftedAlphabet.map((c, i) => (
+                        <Table.Td key={i} ta='center' c='violet' fw={700}>
+                          {c}
+                        </Table.Td>
+                      ))}
+                    </Table.Tr>
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
             </PageSection>
           </Tabs.Panel>
 
           <Tabs.Panel value='xor' pt='xl'>
             <PageSection title='XOR Cipher' delay={0.1}>
-              <Card p='xl' radius='lg' withBorder>
-                <Text mb='lg'>
-                  Combines bits using the XOR operation. If you XOR twice with the same key, you get
-                  the original data back. This is the basis for many modern stream ciphers.
-                </Text>
+              <Text mb='lg'>
+                Combines bits using the XOR operation. If you XOR twice with the same key, you get
+                the original data back. This is the basis for many modern stream ciphers.
+              </Text>
 
-                {showDetailed && (
-                  <DetailedNote title="Why XOR?">
-                    <Text size="sm">
-                      XOR is the perfect cryptographic operator because it is reversible (A XOR B XOR B = A) and, if the key is random, the output is random.
-                    </Text>
-                  </DetailedNote>
-                )}
+              {showDetailed && (
+                <DetailedNote title="Why XOR?">
+                  <Text size="sm">
+                    XOR is the perfect cryptographic operator because it is reversible (A XOR B XOR B = A) and, if the key is random, the output is random.
+                  </Text>
+                </DetailedNote>
+              )}
 
-                <Grid gutter='xl'>
-                  <Grid.Col span={{ base: 12, md: 6 }}>
-                    <Stack>
-                      <TextInput
-                        label='Input Text'
-                        value={xorInput}
-                        onChange={(e) => setXorInput(e.currentTarget.value)}
-                      />
-                      <TextInput
-                        label='Secret Key'
-                        value={xorKey}
-                        onChange={(e) => setXorKey(e.currentTarget.value)}
-                      />
-                    </Stack>
-                  </Grid.Col>
-                  <Grid.Col span={{ base: 12, md: 6 }}>
-                    <Stack>
-                      <Group justify="space-between" mb={-8}>
-                        <Text size='sm' fw={500}>
-                          Ciphertext (Hex)
-                        </Text>
-                        <CopyButton value={xorOutput} />
-                      </Group>
-                      <Code block style={{ minHeight: 40 }}>
-                        {xorOutput}
-                      </Code>
-
-                      <Text size='sm' fw={500} mt='sm'>
-                        Decrypted (Ciphertext XOR Key)
+              <Grid gutter='xl'>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Stack>
+                    <TextInput
+                      label='Input Text'
+                      value={xorInput}
+                      onChange={(e) => setXorInput(e.currentTarget.value)}
+                    />
+                    <TextInput
+                      label='Secret Key'
+                      value={xorKey}
+                      onChange={(e) => setXorKey(e.currentTarget.value)}
+                    />
+                  </Stack>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Stack>
+                    <Group justify="space-between" mb={-8}>
+                      <Text size='sm' fw={500}>
+                        Ciphertext (Hex)
                       </Text>
-                      <Code block style={{ minHeight: 40 }}>
-                        {xorDecrypted}
-                      </Code>
-                    </Stack>
-                  </Grid.Col>
-                </Grid>
-              </Card>
+                      <CopyButton value={xorOutput} />
+                    </Group>
+                    <Code block style={{ minHeight: 40 }}>
+                      {xorOutput}
+                    </Code>
+
+                    <Text size='sm' fw={500} mt='sm'>
+                      Decrypted (Ciphertext XOR Key)
+                    </Text>
+                    <Code block style={{ minHeight: 40 }}>
+                      {xorDecrypted}
+                    </Code>
+                  </Stack>
+                </Grid.Col>
+              </Grid>
             </PageSection>
           </Tabs.Panel>
 
           <Tabs.Panel value='aes' pt='xl'>
             <PageSection title='Block Cipher Modes: ECB vs CBC' delay={0.1}>
-              <Card p='xl' radius='lg' withBorder>
-                <Alert
-                  icon={<IconInfoCircle size={16} />}
-                  title='Educational Demo'
-                  color='blue'
-                  mb='lg'
-                >
-                  This visualizes how modern ciphers (like AES) handle data blocks. We use colors to
-                  represent block content. Same color = Same data.
-                </Alert>
+              <Alert
+                icon={<IconInfoCircle size={16} />}
+                title='Educational Demo'
+                color='blue'
+                mb='lg'
+              >
+                This visualizes how modern ciphers (like AES) handle data blocks. We use colors to
+                represent block content. Same color = Same data.
+              </Alert>
 
-                {showDetailed && (
-                  <DetailedNote title="ECB vs CBC">
-                    <Text size="sm">
-                      ECB (Electronic Codebook) encrypts each block independently. This is bad because patterns in the plaintext show up in the ciphertext.
-                      CBC (Cipher Block Chaining) mixes the previous block into the current one, hiding patterns.
+              {showDetailed && (
+                <DetailedNote title="ECB vs CBC">
+                  <Text size="sm">
+                    ECB (Electronic Codebook) encrypts each block independently. This is bad because patterns in the plaintext show up in the ciphertext.
+                    CBC (Cipher Block Chaining) mixes the previous block into the current one, hiding patterns.
+                  </Text>
+                </DetailedNote>
+              )}
+
+              <ExamplePicker
+                examples={aesExamples}
+                onSelect={setBlockInput}
+                label='Load Pattern:'
+                currentValue={blockInput}
+              />
+
+              <TextInput
+                label="Input Text (Try repeating patterns like 'AAAAAAAA')"
+                value={blockInput}
+                onChange={(e) => setBlockInput(e.currentTarget.value)}
+                mb='xl'
+              />
+
+              <Grid gutter='xl'>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Card
+                    p='md'
+                    withBorder
+                    style={{
+                      borderColor: 'var(--mantine-color-red-3)',
+                      backgroundColor: isDark
+                        ? 'rgba(255, 107, 107, 0.1)'
+                        : 'var(--mantine-color-red-0)',
+                    }}
+                  >
+                    <Badge color='red' mb='sm'>
+                      ECB Mode (Insecure)
+                    </Badge>
+                    <Text size='sm' mb='md'>
+                      Electronic Codebook. Identical plaintext blocks produce identical ciphertext
+                      blocks.
+                      <b>Pattern is preserved.</b>
                     </Text>
-                  </DetailedNote>
-                )}
+                    <Suspense fallback={<Center p="xl"><Loader /></Center>}>
+                      <BlockDiagram blocks={ecbBlocks} label='Ciphertext Blocks' />
+                    </Suspense>
+                  </Card>
+                </Grid.Col>
 
-                <ExamplePicker
-                  examples={aesExamples}
-                  onSelect={setBlockInput}
-                  label='Load Pattern:'
-                  currentValue={blockInput}
-                />
-
-                <TextInput
-                  label="Input Text (Try repeating patterns like 'AAAAAAAA')"
-                  value={blockInput}
-                  onChange={(e) => setBlockInput(e.currentTarget.value)}
-                  mb='xl'
-                />
-
-                <Grid gutter='xl'>
-                  <Grid.Col span={{ base: 12, md: 6 }}>
-                    <Card
-                      p='md'
-                      withBorder
-                      style={{
-                        borderColor: 'var(--mantine-color-red-3)',
-                        backgroundColor: isDark
-                          ? 'rgba(255, 107, 107, 0.1)'
-                          : 'var(--mantine-color-red-0)',
-                      }}
-                    >
-                      <Badge color='red' mb='sm'>
-                        ECB Mode (Insecure)
-                      </Badge>
-                      <Text size='sm' mb='md'>
-                        Electronic Codebook. Identical plaintext blocks produce identical ciphertext
-                        blocks.
-                        <b>Pattern is preserved.</b>
-                      </Text>
-                      <Suspense fallback={<Center p="xl"><Loader /></Center>}>
-                        <BlockDiagram blocks={ecbBlocks} label='Ciphertext Blocks' />
-                      </Suspense>
-                    </Card>
-                  </Grid.Col>
-
-                  <Grid.Col span={{ base: 12, md: 6 }}>
-                    <Card
-                      p='md'
-                      withBorder
-                      style={{
-                        borderColor: 'var(--mantine-color-green-3)',
-                        backgroundColor: isDark
-                          ? 'rgba(81, 207, 102, 0.1)'
-                          : 'var(--mantine-color-green-0)',
-                      }}
-                    >
-                      <Badge color='green' mb='sm'>
-                        CBC Mode (Secure)
-                      </Badge>
-                      <Text size='sm' mb='md'>
-                        Cipher Block Chaining. Previous block is mixed into current block.
-                        <b>Pattern is hidden.</b>
-                      </Text>
-                      <Suspense fallback={<Center p="xl"><Loader /></Center>}>
-                        <BlockDiagram blocks={cbcBlocks} label='Ciphertext Blocks' />
-                      </Suspense>
-                    </Card>
-                  </Grid.Col>
-                </Grid>
-              </Card>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Card
+                    p='md'
+                    withBorder
+                    style={{
+                      borderColor: 'var(--mantine-color-green-3)',
+                      backgroundColor: isDark
+                        ? 'rgba(81, 207, 102, 0.1)'
+                        : 'var(--mantine-color-green-0)',
+                    }}
+                  >
+                    <Badge color='green' mb='sm'>
+                      CBC Mode (Secure)
+                    </Badge>
+                    <Text size='sm' mb='md'>
+                      Cipher Block Chaining. Previous block is mixed into current block.
+                      <b>Pattern is hidden.</b>
+                    </Text>
+                    <Suspense fallback={<Center p="xl"><Loader /></Center>}>
+                      <BlockDiagram blocks={cbcBlocks} label='Ciphertext Blocks' />
+                    </Suspense>
+                  </Card>
+                </Grid.Col>
+              </Grid>
             </PageSection>
           </Tabs.Panel>
         </Tabs>

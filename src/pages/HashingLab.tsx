@@ -20,7 +20,6 @@ import {
   Badge,
   Box,
   FileInput,
-  Card,
   Loader,
   Center,
 } from '@mantine/core';
@@ -31,7 +30,8 @@ import {
   compareHashesBits,
   calculateAvalanchePercentage,
 } from '../crypto/hash';
-import { PageHeader, PageSection } from '../components/ui/PageComponents';
+import { PageHeader } from '../components/ui/PageComponents';
+import { PageSection } from '../components/layout/PageSection';
 import { ExamplePicker } from '../components/ui/ExamplePicker';
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
@@ -128,7 +128,7 @@ export function HashingLab() {
         title='Hashing Lab'
         description='Hashing is a one-way function that maps data of arbitrary size to fixed-size values. A key property is the Avalanche Effect: a small change in input should result in a drastically different hash.'
         icon={<IconHash size={32} />}
-        color='green'
+        lab='hashing'
         compact
       />
 
@@ -138,195 +138,187 @@ export function HashingLab() {
         </Group>
 
         <PageSection title='Configuration' delay={0.1}>
-          <Card p='lg' radius='lg' withBorder mb='xl'>
-            <Stack gap='xs'>
-              <Text size='sm' fw={600} c='dimmed' tt='uppercase'>
-                Algorithm Selection
+          <Stack gap='xs'>
+            <Text size='sm' fw={600} c='dimmed' tt='uppercase'>
+              Algorithm Selection
+            </Text>
+            <Group>
+              <Select
+                value={algo}
+                onChange={(v) => setAlgo(v as HashAlgorithm)}
+                data={['MD5', 'SHA-1', 'SHA-256', 'SHA-512']}
+                maw={200}
+              />
+              <Text size='sm' c='dimmed'>
+                {algo === 'MD5' && 'Broken / insecure; for demo only.'}
+                {algo === 'SHA-1' && 'Deprecated for security.'}
+                {(algo === 'SHA-256' || algo === 'SHA-512') && 'Modern hash family.'}
               </Text>
-              <Group>
-                <Select
-                  value={algo}
-                  onChange={(v) => setAlgo(v as HashAlgorithm)}
-                  data={['MD5', 'SHA-1', 'SHA-256', 'SHA-512']}
-                  maw={200}
-                />
-                <Text size='sm' c='dimmed'>
-                  {algo === 'MD5' && 'Broken / insecure; for demo only.'}
-                  {algo === 'SHA-1' && 'Deprecated for security.'}
-                  {(algo === 'SHA-256' || algo === 'SHA-512') && 'Modern hash family.'}
-                </Text>
-              </Group>
-            </Stack>
-          </Card>
+            </Group>
+          </Stack>
         </PageSection>
 
-        <ExamplePicker
-          examples={examples}
-          onSelect={handleExampleSelect}
-          label='Load Scenario:'
-          currentValue={scenario || undefined}
-        />
+        <Box mb="xl">
+          <ExamplePicker
+            examples={examples}
+            onSelect={handleExampleSelect}
+            label='Load Scenario:'
+            currentValue={scenario || undefined}
+          />
+        </Box>
 
         <Grid gutter='xl'>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <PageSection title='Input A' delay={0.2}>
-              <Card p='lg' radius='lg' withBorder h='100%'>
-                <Stack>
-                  <TextInput
-                    label='Text Input'
-                    value={input1}
-                    onChange={(e) => setInput1(e.currentTarget.value)}
-                  />
-                  <Group justify="space-between" mt="sm">
-                    <Text size='sm' fw={500}>
-                      Hash Output
-                    </Text>
-                    <CopyButton value={hash1} />
-                  </Group>
-                  <Code
-                    block
-                    style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}
-                  >
-                    {hash1 || 'Computing...'}
-                  </Code>
-                </Stack>
-              </Card>
+              <Stack>
+                <TextInput
+                  label='Text Input'
+                  value={input1}
+                  onChange={(e) => setInput1(e.currentTarget.value)}
+                />
+                <Group justify="space-between" mt="sm">
+                  <Text size='sm' fw={500}>
+                    Hash Output
+                  </Text>
+                  <CopyButton value={hash1} />
+                </Group>
+                <Code
+                  block
+                  style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}
+                >
+                  {hash1 || 'Computing...'}
+                </Code>
+              </Stack>
             </PageSection>
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, md: 6 }}>
             <PageSection title='Input B' delay={0.2}>
-              <Card p='lg' radius='lg' withBorder h='100%'>
-                <Stack>
-                  <TextInput
-                    label='Text Input (Try changing one character)'
-                    value={input2}
-                    onChange={(e) => setInput2(e.currentTarget.value)}
-                  />
-                  <Group justify="space-between" mt="sm">
-                    <Text size='sm' fw={500}>
-                      Hash Output
-                    </Text>
-                    <CopyButton value={hash2} />
-                  </Group>
-                  <Code
-                    block
-                    style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}
-                  >
-                    {hash2 || 'Computing...'}
-                  </Code>
-                </Stack>
-              </Card>
+              <Stack>
+                <TextInput
+                  label='Text Input (Try changing one character)'
+                  value={input2}
+                  onChange={(e) => setInput2(e.currentTarget.value)}
+                />
+                <Group justify="space-between" mt="sm">
+                  <Text size='sm' fw={500}>
+                    Hash Output
+                  </Text>
+                  <CopyButton value={hash2} />
+                </Group>
+                <Code
+                  block
+                  style={{ wordBreak: 'break-all', minHeight: 60, fontSize: '0.85rem' }}
+                >
+                  {hash2 || 'Computing...'}
+                </Code>
+              </Stack>
             </PageSection>
           </Grid.Col>
         </Grid>
 
         <PageSection title='Avalanche Effect Visualization' delay={0.4}>
-          <Card p='xl' radius='lg' withBorder mt='xl'>
-            {showDetailed && (
-              <DetailedNote title="The Avalanche Effect">
-                <Text size="sm">
-                  In a good hash function, flipping a single bit in the input should flip approximately 50% of the bits in the output. 
-                  This makes it impossible to predict the input from the output.
-                </Text>
-              </DetailedNote>
-            )}
-            <Grid gutter='xl' align='center'>
-              <Grid.Col span={{ base: 12, md: 4 }}>
-                <Stack gap='lg'>
-                  <Box>
-                    <Text fw={700} size='lg' mb='xs'>
-                      Bit Difference
-                    </Text>
-                    <Text c='dimmed' size='sm' mb='md'>
-                      Percentage of bits that flipped between Hash A and Hash B. Ideally ~50% for a
-                      good hash function.
-                    </Text>
-                    <Group align='center'>
-                      <Text size='xl' fw={700} c={percentChanged > 40 ? 'green' : 'orange'}>
-                        {percentChanged.toFixed(2)}%
-                      </Text>
-                      <Badge
-                        color={percentChanged > 40 ? 'green' : 'orange'}
-                        variant='light'
-                        radius='xl'
-                      >
-                        {percentChanged > 40 ? 'Good Avalanche' : 'Low Change'}
-                      </Badge>
-                    </Group>
-                    <Progress
-                      value={percentChanged}
-                      color={percentChanged > 40 ? 'green' : 'orange'}
-                      size='xl'
-                      mt='sm'
-                      radius='xl'
-                    />
-                  </Box>
-
-                  <Box>
-                    <Text size='sm' fw={500}>
-                      Legend
-                    </Text>
-                    <Group gap='xs' mt='xs'>
-                      <Badge color='gray' variant='outline' radius='sm'>
-                        Same Bit (Square)
-                      </Badge>
-                      <Badge color='red' variant='filled' radius='xl'>
-                        Flipped Bit (Circle)
-                      </Badge>
-                    </Group>
-                  </Box>
-                </Stack>
-              </Grid.Col>
-
-              <Grid.Col span={{ base: 12, md: 8 }}>
-                <Paper withBorder p='md' radius='md' bg='var(--mantine-color-body)'>
-                  <Text size='sm' mb='sm' fw={500} ta='center' c='dimmed'>
-                    First 256 Bits Visualization
+          {showDetailed && (
+            <DetailedNote title="The Avalanche Effect">
+              <Text size="sm">
+                In a good hash function, flipping a single bit in the input should flip approximately 50% of the bits in the output. 
+                This makes it impossible to predict the input from the output.
+              </Text>
+            </DetailedNote>
+          )}
+          <Grid gutter='xl' align='center'>
+            <Grid.Col span={{ base: 12, md: 4 }}>
+              <Stack gap='lg'>
+                <Box>
+                  <Text fw={700} size='lg' mb='xs'>
+                    Bit Difference
                   </Text>
-                  <Box mx='auto' style={{ maxWidth: 500 }}>
-                    <Suspense fallback={<Center p="xl"><Loader /></Center>}>
-                      <BitGrid bits={diffBits} />
-                    </Suspense>
-                  </Box>
-                </Paper>
-              </Grid.Col>
-            </Grid>
-          </Card>
+                  <Text c='dimmed' size='sm' mb='md'>
+                    Percentage of bits that flipped between Hash A and Hash B. Ideally ~50% for a
+                    good hash function.
+                  </Text>
+                  <Group align='center'>
+                    <Text size='xl' fw={700} c={percentChanged > 40 ? 'green' : 'orange'}>
+                      {percentChanged.toFixed(2)}%
+                    </Text>
+                    <Badge
+                      color={percentChanged > 40 ? 'green' : 'orange'}
+                      variant='light'
+                      radius='xl'
+                    >
+                      {percentChanged > 40 ? 'Good Avalanche' : 'Low Change'}
+                    </Badge>
+                  </Group>
+                  <Progress
+                    value={percentChanged}
+                    color={percentChanged > 40 ? 'green' : 'orange'}
+                    size='xl'
+                    mt='sm'
+                    radius='xl'
+                  />
+                </Box>
+
+                <Box>
+                  <Text size='sm' fw={500}>
+                    Legend
+                  </Text>
+                  <Group gap='xs' mt='xs'>
+                    <Badge color='gray' variant='outline' radius='sm'>
+                      Same Bit (Square)
+                    </Badge>
+                    <Badge color='red' variant='filled' radius='xl'>
+                      Flipped Bit (Circle)
+                    </Badge>
+                  </Group>
+                </Box>
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={{ base: 12, md: 8 }}>
+              <Paper withBorder p='md' radius='md' bg='var(--mantine-color-body)'>
+                <Text size='sm' mb='sm' fw={500} ta='center' c='dimmed'>
+                  First 256 Bits Visualization
+                </Text>
+                <Box mx='auto' style={{ maxWidth: 500 }}>
+                  <Suspense fallback={<Center p="xl"><Loader /></Center>}>
+                    <BitGrid bits={diffBits} />
+                  </Suspense>
+                </Box>
+              </Paper>
+            </Grid.Col>
+          </Grid>
         </PageSection>
 
         <PageSection title='File Integrity Check' delay={0.5}>
-          <Card p='lg' radius='lg' withBorder>
-            {showDetailed && (
-              <DetailedNote title="Client-Side Hashing">
-                <Text size="sm">
-                  We are hashing this file right here in your browser. It is never uploaded to a server. 
-                  This is useful for verifying that a downloaded file hasn't been tampered with.
+          {showDetailed && (
+            <DetailedNote title="Client-Side Hashing">
+              <Text size="sm">
+                We are hashing this file right here in your browser. It is never uploaded to a server. 
+                This is useful for verifying that a downloaded file hasn't been tampered with.
+              </Text>
+            </DetailedNote>
+          )}
+          <Group align='flex-start'>
+            <FileInput
+              label='Select a file to hash (SHA-256)'
+              placeholder='Click to upload...'
+              leftSection={<IconFile size={14} />}
+              value={file}
+              onChange={setFile}
+              maw={300}
+            />
+            <Stack gap={0} style={{ flex: 1 }}>
+              <Group justify="space-between" mb={4}>
+                <Text size='sm' fw={500}>
+                  SHA-256 Digest
                 </Text>
-              </DetailedNote>
-            )}
-            <Group align='flex-start'>
-              <FileInput
-                label='Select a file to hash (SHA-256)'
-                placeholder='Click to upload...'
-                leftSection={<IconFile size={14} />}
-                value={file}
-                onChange={setFile}
-                maw={300}
-              />
-              <Stack gap={0} style={{ flex: 1 }}>
-                <Group justify="space-between" mb={4}>
-                  <Text size='sm' fw={500}>
-                    SHA-256 Digest
-                  </Text>
-                  {fileHash && <CopyButton value={fileHash} />}
-                </Group>
-                <Code block style={{ wordBreak: 'break-all' }}>
-                  {isHashingFile ? 'Computing hash...' : (fileHash || 'Select a file to see its hash...')}
-                </Code>
-              </Stack>
-            </Group>
-          </Card>
+                {fileHash && <CopyButton value={fileHash} />}
+              </Group>
+              <Code block style={{ wordBreak: 'break-all' }}>
+                {isHashingFile ? 'Computing hash...' : (fileHash || 'Select a file to see its hash...')}
+              </Code>
+            </Stack>
+          </Group>
         </PageSection>
       </Container>
     </>

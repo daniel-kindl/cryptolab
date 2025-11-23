@@ -33,7 +33,8 @@ import {
 } from '@tabler/icons-react';
 import { stringToBase64, base64ToString } from '../crypto/encoding';
 import { computeHash } from '../crypto/hash';
-import { PageHeader, PageSection } from '../components/ui/PageComponents';
+import { PageHeader } from '../components/ui/PageComponents';
+import { PageSection } from '../components/layout/PageSection';
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
@@ -106,7 +107,7 @@ export function Pitfalls() {
         title='Common Pitfalls'
         description='Cryptography is hard to get right. Even with good intentions, developers often make mistakes that leave data vulnerable.'
         icon={<IconAlertTriangle size={32} />}
-        color='red'
+        lab='pitfalls'
         compact
       />
 
