@@ -58,7 +58,10 @@ describe('Smart Presets', () => {
   it('EncodingLab loads emoji scenario from query param', async () => {
     render(
       <MantineProvider theme={cryptolabTheme}>
-        <MemoryRouter initialEntries={['/encoding?scenario=emoji']}>
+        <MemoryRouter
+          initialEntries={['/encoding?scenario=emoji']}
+          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+        >
           <Routes>
             <Route path='/encoding' element={<EncodingLab />} />
           </Routes>

@@ -1,4 +1,4 @@
-import { createTheme, MantineColorsTuple, rem, MantineTheme } from '@mantine/core';
+import { createTheme, MantineColorsTuple, rem } from '@mantine/core';
 
 const brand: MantineColorsTuple = [
   '#f4f0ff',
@@ -181,37 +181,11 @@ export const cryptolabTheme = createTheme({
       defaultProps: {
         radius: 'lg',
       },
-      styles: (theme: MantineTheme) => ({
-        root: {
-          '[data-mantine-color-scheme="dark"] &': {
-            backgroundColor: theme.other.contentBgDark,
-            boxShadow: theme.shadows.sm,
-          },
-          '[data-mantine-color-scheme="light"] &': {
-            backgroundColor: theme.other.contentBgLight,
-            boxShadow: theme.shadows.xs,
-            border: `1px solid #e5e7eb`,
-          },
-        },
-      }),
     },
     Paper: {
       defaultProps: {
         radius: 'lg',
       },
-      styles: (theme: MantineTheme) => ({
-        root: {
-          '[data-mantine-color-scheme="dark"] &': {
-            backgroundColor: theme.other.contentBgDark,
-            boxShadow: theme.shadows.sm,
-          },
-          '[data-mantine-color-scheme="light"] &': {
-            backgroundColor: theme.other.contentBgLight,
-            boxShadow: theme.shadows.xs,
-            border: `1px solid #e5e7eb`,
-          },
-        },
-      }),
     },
     Tabs: {
       defaultProps: {
