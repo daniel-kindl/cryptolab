@@ -27,8 +27,10 @@ import { ByteVisualizer, ExplanationTooltip } from '../components/ui/ByteVisuali
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export function EncodingLab() {
+  useDocumentTitle('Encoding — Cryptolab');
   const location = useLocation();
   const [input, setInput] = useState('Hello World');
   const [activeTab, setActiveTab] = useState<string | null>('base64');

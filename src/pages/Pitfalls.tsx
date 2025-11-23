@@ -37,8 +37,10 @@ import { PageHeader, PageSection } from '../components/ui/PageComponents';
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export function Pitfalls() {
+  useDocumentTitle('Security Pitfalls — Cryptolab');
   const location = useLocation();
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';

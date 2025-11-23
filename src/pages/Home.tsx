@@ -29,8 +29,10 @@ import {
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export function Home() {
+  useDocumentTitle('Cryptolab — Learn Cryptography Visually');
   const navigate = useNavigate();
 
   const features = [

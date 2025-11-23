@@ -34,10 +34,12 @@ import { ExamplePicker } from '../components/ui/ExamplePicker';
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const BlockDiagram = lazy(() => import('../components/viz/BlockDiagram').then(module => ({ default: module.BlockDiagram })));
 
 export function EncryptionLab() {
+  useDocumentTitle('Encryption & Block Modes — Cryptolab');
   const location = useLocation();
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';

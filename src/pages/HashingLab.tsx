@@ -36,10 +36,12 @@ import { ExamplePicker } from '../components/ui/ExamplePicker';
 import { CopyButton } from '../components/ui/CopyButton';
 import { EducatorToggle } from '../components/ui/EducatorToggle';
 import { DetailedNote } from '../components/ui/DetailedNote';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const BitGrid = lazy(() => import('../components/viz/BitGrid').then(module => ({ default: module.BitGrid })));
 
 export function HashingLab() {
+  useDocumentTitle('Hashing & Avalanche Effect — Cryptolab');
   const location = useLocation();
   const [algo, setAlgo] = useState<HashAlgorithm>('SHA-256');
   const [input1, setInput1] = useState('Hello World');
