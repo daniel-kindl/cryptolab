@@ -27,6 +27,7 @@ import {
 } from '@tabler/icons-react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import pkg from '../../../package.json';
 
 export function Layout() {
   const [opened, { toggle }] = useDisclosure();
@@ -124,7 +125,7 @@ export function Layout() {
               />
               <ActionIcon
                 component='a'
-                href='https://github.com'
+                href='https://github.com/daniel-kindl/cryptolab'
                 target='_blank'
                 variant='default'
                 size='lg'
@@ -153,19 +154,29 @@ export function Layout() {
               ? 'radial-gradient(#373A40 1px, transparent 1px)'
               : 'radial-gradient(#DEE2E6 1px, transparent 1px)',
           backgroundSize: '24px 24px',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        <AnimatePresence mode='wait'>
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-          >
-            {element}
-          </motion.div>
-        </AnimatePresence>
+        <Box style={{ flex: 1 }}>
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {element}
+            </motion.div>
+          </AnimatePresence>
+        </Box>
+
+        <Container size='xl' py='xl' mt='xl'>
+          <Text c='dimmed' size='xs' ta='center'>
+            Cryptolab • v{pkg.version} • © Daniel Kindl 2025
+          </Text>
+        </Container>
       </AppShell.Main>
     </AppShell>
   );
