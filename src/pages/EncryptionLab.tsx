@@ -88,7 +88,9 @@ export function EncryptionLab() {
 
   // CBC Mode: Each block is XORed with the previous ciphertext before encryption.
   // This is a TOY implementation for educational visualization only - NOT real AES!
-  // We treat hex strings as text for simplicity in this educational demo.
+  // Note: We intentionally treat hex strings as text for simplicity. This is NOT
+  // cryptographically correct but serves the educational purpose of showing the
+  // CONCEPT of chaining blocks. In real CBC, you'd XOR raw bytes, not hex strings.
   const cbcBlocks = [];
   let prevCiphertext = '00000000000000000000000000000000'; // Initialization Vector (IV)
   for (const block of blocks) {
