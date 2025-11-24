@@ -77,18 +77,31 @@ export function EncryptionLab() {
     }
   }, [location]);
 
+  // ECB Mode: Each block is encrypted independently using XOR with the key.
+  // This is a TOY implementation for educational visualization only - NOT real AES!
+  // In real ECB, identical plaintext blocks produce identical ciphertext blocks.
   const ecbBlocks = blocks.map((b) => {
-    const encHex = xorEncrypt(String.fromCharCode(...b.bytes), 'SECRET_KEY_12345');
-    return { ...b, hex: encHex };
+    const plaintext = String.fromCharCode(...b.bytes);
+    const encrypted = xorEncrypt(plaintext, 'SECRET_KEY_12345');
+    return { ...b, hex: encrypted };
   });
 
+  // CBC Mode: Each block is XORed with the previous ciphertext before encryption.
+  // This is a TOY implementation for educational visualization only - NOT real AES!
+  // Note: We intentionally treat hex strings as text for simplicity. This is NOT
+  // cryptographically correct but serves the educational purpose of showing the
+  // CONCEPT of chaining blocks. In real CBC, you'd XOR raw bytes, not hex strings.
   const cbcBlocks = [];
-  let prevBlockHex = '00000000000000000000000000000000'; // IV
+  let prevCiphertext = '00000000000000000000000000000000'; // Initialization Vector (IV)
   for (const block of blocks) {
-    const mixedInput = xorEncrypt(String.fromCharCode(...block.bytes), prevBlockHex);
-    const encHex = xorEncrypt(mixedInput, 'SECRET_KEY_12345');
-    cbcBlocks.push({ ...block, hex: encHex });
-    prevBlockHex = encHex;
+    const plaintext = String.fromCharCode(...block.bytes);
+    // XOR plaintext with previous ciphertext (treating hex string as text for simplicity)
+    const mixed = xorEncrypt(plaintext, prevCiphertext);
+    // Encrypt the mixed result with the key
+    const encrypted = xorEncrypt(mixed, 'SECRET_KEY_12345');
+    cbcBlocks.push({ ...block, hex: encrypted });
+    // Use this ciphertext as input for next block
+    prevCiphertext = encrypted;
   }
 
   // Caesar Alphabet Mapping
@@ -127,7 +140,7 @@ export function EncryptionLab() {
               XOR Cipher (Toy)
             </Tabs.Tab>
             <Tabs.Tab value='aes' fw={600}>
-              AES Block Modes (Real Concept)
+              Block Cipher Modes (Toy Demo)
             </Tabs.Tab>
           </Tabs.List>
 
@@ -141,7 +154,7 @@ export function EncryptionLab() {
               <Grid gutter='xl'>
                 <Grid.Col span={{ base: 12, md: 6 }}>
                   <TextInput
-                    label='Input (A-Z only)'
+                    label='Input Text (letters will be shifted)'
                     value={caesarInput}
                     onChange={(e) => setCaesarInput(e.currentTarget.value.toUpperCase())}
                     mb='lg'
@@ -268,20 +281,29 @@ export function EncryptionLab() {
             <PageSection title='Block Cipher Modes: ECB vs CBC' delay={0.1}>
               <Alert
                 icon={<IconInfoCircle size={16} />}
-                title='Educational Demo'
+                title='Educational Demo: Toy XOR-Based Visualization'
                 color='blue'
                 mb='lg'
               >
-                This visualizes how modern ciphers (like AES) handle data blocks. We use colors to
-                represent block content. Same color = Same data.
+                This demonstrates the <b>concept</b> of block cipher modes (ECB vs CBC) using a
+                simple XOR operation, <b>not real AES encryption</b>. We use colors to show how
+                identical plaintext blocks appear in ciphertext. Same color = Same ciphertext.
               </Alert>
 
               {showDetailed && (
-                <DetailedNote title='ECB vs CBC'>
+                <DetailedNote title='ECB vs CBC (Real Cryptography Concepts)'>
+                  <Text size='sm' mb='xs'>
+                    In real block ciphers like AES:
+                  </Text>
+                  <Text size='sm' mb='xs'>
+                    <b>ECB (Electronic Codebook)</b> encrypts each block independently. This is
+                    insecure because identical plaintext blocks produce identical ciphertext blocks,
+                    revealing patterns in the data.
+                  </Text>
                   <Text size='sm'>
-                    ECB (Electronic Codebook) encrypts each block independently. This is bad because
-                    patterns in the plaintext show up in the ciphertext. CBC (Cipher Block Chaining)
-                    mixes the previous block into the current one, hiding patterns.
+                    <b>CBC (Cipher Block Chaining)</b> XORs each plaintext block with the previous
+                    ciphertext block before encryption. This hides patterns, making it much more
+                    secure. This demo uses toy XOR operations to show the concept visually.
                   </Text>
                 </DetailedNote>
               )}
@@ -316,9 +338,9 @@ export function EncryptionLab() {
                       ECB Mode (Insecure)
                     </Badge>
                     <Text size='sm' mb='md'>
-                      Electronic Codebook. Identical plaintext blocks produce identical ciphertext
-                      blocks.
-                      <b>Pattern is preserved.</b>
+                      Electronic Codebook. Each block is encrypted independently. Identical
+                      plaintext blocks → identical ciphertext blocks.
+                      <b> Pattern is preserved.</b>
                     </Text>
                     <Suspense
                       fallback={
@@ -347,8 +369,9 @@ export function EncryptionLab() {
                       CBC Mode (Secure)
                     </Badge>
                     <Text size='sm' mb='md'>
-                      Cipher Block Chaining. Previous block is mixed into current block.
-                      <b>Pattern is hidden.</b>
+                      Cipher Block Chaining. Each plaintext block is XORed with the previous
+                      ciphertext block before encryption.
+                      <b> Pattern is hidden.</b>
                     </Text>
                     <Suspense
                       fallback={
